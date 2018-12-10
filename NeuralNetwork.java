@@ -36,13 +36,15 @@ public class NeuralNetwork{
                 inputs.get(a+1)[b] = sigmoid(inputs.get(a+1)[b]);
             }
         }
+        /*
         for(double[] a: inputs){
             for(double b: a){
                 System.out.print(b+" ");
             }
             System.out.println("");
         }
-        return inputs.get(inputs.size()-1);
+        */
+       return inputs.get(inputs.size()-1);
     }
     private double sigmoid(double val){
         return 1 / (1 + Math.exp(-val));
