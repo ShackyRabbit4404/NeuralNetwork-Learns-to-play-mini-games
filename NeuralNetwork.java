@@ -22,13 +22,18 @@ public class NeuralNetwork{
             if(a == 0){
                 inputs.add(input);
             }
-            inputs.add(new double[NetworkFrame[a]]);
+            else{
+                inputs.add(new double[NetworkFrame[a]]);
+            }
         }
         for(int a = 0; a < NetworkFrame.length-1; a++){
             for(int b = 0; b < weights.get(a).length; b++){
                 for(int c = 0; c < weights.get(a)[b].length; c++){
-                    inputs.get(a+1)[c] += sigmoid(inputs.get(a)[b]*weights.get(a)[b][c]);
+                    inputs.get(a+1)[c] += inputs.get(a)[b]*weights.get(a)[b][c];
                 }
+            }
+            for(int b = 0; b < inputs.get(a+1).length; b++){
+                inputs.get(a+1)[b] = sigmoid(inputs.get(a+1)[b]);
             }
         }
         for(double[] a: inputs){
