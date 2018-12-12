@@ -2,9 +2,11 @@ import java.util.*;
 public class NeuralNetwork{
     private ArrayList<double[][]> weights;
     private int[] NetworkFrame;
+    private int fitness;
     public NeuralNetwork(int[] netFrame){
         weights = new ArrayList<double[][]>();
         NetworkFrame = netFrame;
+        fitness = 0;
         for(int i = 0; i < netFrame.length-1; i++){
             weights.add(new double[netFrame[i]][netFrame[i+1]]);
         }
@@ -45,6 +47,18 @@ public class NeuralNetwork{
         }
         */
        return inputs.get(inputs.size()-1);
+    }
+    public void setFitness(int f){
+        fitness = f;
+    }
+    public int getFitness(){
+        return fitness;
+    }
+    public ArrayList<double[][]> getWeights(){
+        return weights;
+    }
+    public void setWeights(ArrayList<double[][]> w){
+        weights = w;
     }
     private double sigmoid(double val){
         return 1 / (1 + Math.exp(-val));
