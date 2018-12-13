@@ -14,11 +14,14 @@ public class PongMain{
         for(NeuralNetwork NN: Gen.Generation){
             //make decisions
         }
-        for(int i = 0; i < 20;i++){
-            game.ballMove();
+        boolean contin = true;
+        while(contin){
+            if(!game.ballMove()){
+                contin = false;
+            }
             display.draw();
             try{
-                Thread.sleep(250);
+                Thread.sleep(10);
             }
             catch(Exception e){
                 System.out.println(e);
