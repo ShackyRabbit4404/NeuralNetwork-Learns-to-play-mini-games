@@ -3,7 +3,7 @@ public class GenerationManager{
     int genNum = 1;
     ArrayList<NeuralNetwork> Generation;
     //The structure of the network
-    int[] struct = {3,3,2};
+    int[] struct = {4,3,3};
     public GenerationManager(){
         Generation = new ArrayList<NeuralNetwork>();
     }
@@ -34,6 +34,7 @@ public class GenerationManager{
            newGen.add(cross(Generation.get(i%10),Generation.get((int)(Math.random()*Generation.size())+1)));
         }
         Generation = newGen;
+        genNum += 1;
     }
     public NeuralNetwork cross(NeuralNetwork x, NeuralNetwork y){
         NeuralNetwork temp = new NeuralNetwork(struct);
