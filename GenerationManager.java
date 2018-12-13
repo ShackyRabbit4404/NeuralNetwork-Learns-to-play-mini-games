@@ -8,7 +8,6 @@ public class GenerationManager{
         Generation = new ArrayList<NeuralNetwork>();
     }
     public void createNewGeneration(){
-        
         for(int i = 0; i < 50; i++){
             Generation.add(new NeuralNetwork(struct));
         }

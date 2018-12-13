@@ -17,5 +17,6 @@ public class PongDisplay extends JPanel{
         g.drawRect(0,0,500,500);
         g.fillRect(game.getBallX(),game.getBallY(),5,5);
         g.fillRect(game.getPlayerX(),480, 100, 10);
+        
     }
 }
