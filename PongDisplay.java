@@ -1,0 +1,21 @@
+import java.awt.*;
+import javax.swing.*;
+public class PongDisplay extends JPanel{
+    Pong game;
+    public PongDisplay(Pong g){
+        super();
+        game = g;
+    }
+    public void draw(){
+        super.repaint();
+    }
+    public void paintComponent(Graphics g){
+        super.paintComponent(g);
+        g.setColor(Color.BLACK);
+        g.fillRect(0,0,500,500);
+        g.setColor(Color.WHITE);
+        g.drawRect(0,0,500,500);
+        g.fillRect(game.getBallX(),game.getBallY(),5,5);
+        g.fillRect(game.getPlayerX(),480, 100, 10);
+    }
+}
