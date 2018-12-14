@@ -75,19 +75,31 @@ public class Pong{
     public boolean ballMove(){
         ballCords[0] += 3*ballDirection[0];
         ballCords[1] += 3*ballDirection[1];
-        if(ballCords[0] <= 0 || ballCords[0] >= 495){
-            ballDirection[0] = ballDirection[0]*-1;
+        /*
+        if(ballCords[1] <= 0){
+            ballDirection[0] *= -1;
         }
+        else if(ballCords[1] >= 475){
+            if(){
+                
+            }
+        }
+        */
         if(ballCords[1] >= 475 && ballCords[0]-playerCords[0] <= 100 && ballCords[0]-playerCords[0] >= 0){
             ballDirection[1] = ballDirection[1]*-1;
             score += 2;
+            ballCords[1] = 474;
         }
         else if(ballCords[1] <= 0){
             ballDirection[1] = ballDirection[1]* -1;
         }
         else if(ballCords[1] >= 480){
             return false;
-        }   
+        } 
+        if(ballCords[0] <= 0 || ballCords[0] >= 495){
+            ballDirection[0] = ballDirection[0]*-1;
+        }
+          
         return true;
     }
 }

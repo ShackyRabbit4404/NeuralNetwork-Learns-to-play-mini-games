@@ -13,7 +13,7 @@ public class PongMain{
         Gen.createNewGeneration();
         int[] netStruct = {4,3,2};
         NeuralNetwork best = Gen.Generation.get(0);
-        for(int a = 0; a < 1000; a++){
+        for(int a = 0; a < 2000; a++){
             int networkNum = 1;
             for(NeuralNetwork NN: Gen.Generation){
                 boolean contin = true;
@@ -36,7 +36,7 @@ public class PongMain{
                     if(!game.ballMove()){
                         contin = false;
                     }
-                    if(game.getScore() > 50000 || game.getScore() < -1000){
+                    if(game.getScore() > 100000 || game.getScore() < -1000){
                         break;
                     }
                     /*
@@ -55,7 +55,7 @@ public class PongMain{
             }
             System.out.println("Generation Number: "+ Gen.genNum);
             Gen.sortGen();
-            if(Gen.Generation.get(0).getFitness() > best.getFitness()){
+            if(Gen.Generation.get(0).getFitness() > best.getFitness() && Gen.Generation.get(0).getFitness() != 100001){
                 best = Gen.Generation.get(0);
             }
             System.out.println("Best: "+ best.getFitness());
@@ -81,6 +81,8 @@ public class PongMain{
         double[][] l1 = {};
         double[][] l2 = {};
         int[] struct = {};
+        w.add(l1);
+        w.add(l2);
         NeuralNetwork best = new NeuralNetwork(struct);
         JFrame frame = new JFrame();
         frame.setVisible(true);
