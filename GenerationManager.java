@@ -8,21 +8,30 @@ public class GenerationManager{
         Generation = new ArrayList<NeuralNetwork>();
     }
     public void createNewGeneration(){
-        for(int i = 0; i < 50; i++){
+        for(int i = 0; i < 20; i++){
             Generation.add(new NeuralNetwork(struct));
         }
     }
     public void sortGen(){
         ArrayList<NeuralNetwork> newGen = new ArrayList<NeuralNetwork>();
         newGen.add(Generation.get(0));
-        for(int a = 1; a < Generation.size();a++){
-            for(int b = 0; b < newGen.size();b++){
-                if(Generation.get(a).getFitness() > newGen.get(b).getFitness()){
+        for(int a = 1; a < Generation.size(); a++){
+            boolean isLast = true;
+            System.out.println("a: "+a);
+            for(int b = 0; b < newGen.size(); b++){
+                System.out.println("b: "+b);
+                if(Generation.get(a).getFitness() > Generation.get(b).getFitness()){
                     newGen.add(b,Generation.get(a));
+                    isLast = false;
+                    break;
                 }
+            }
+            if(isLast){
+                newGen.add(Generation.get(a));
             }
         }
         Generation = newGen;
+        System.out.println(Generation.size());
     }
     public void crossGeneration(){
         ArrayList<NeuralNetwork> newGen = new ArrayList<NeuralNetwork>();
@@ -31,7 +40,7 @@ public class GenerationManager{
             newGen.add(new NeuralNetwork(struct));
         }
         for(int i = 0; i < Generation.size()-numNewNetworks; i++){
-           newGen.add(cross(Generation.get(i%10),Generation.get((int)(Math.random()*Generation.size())+1)));
+           newGen.add(cross(Generation.get(i%5),Generation.get((int)(Math.random()*Generation.size()))));
         }
         Generation = newGen;
         genNum += 1;
@@ -39,6 +48,7 @@ public class GenerationManager{
     public NeuralNetwork cross(NeuralNetwork x, NeuralNetwork y){
         NeuralNetwork temp = new NeuralNetwork(struct);
         ArrayList<double[][]> w = temp.getWeights();
+        System.out.println("start cross");
         for(int a = 0; a < w.size();a++){
             for(int b = 0; b < w.get(a).length;b++){
                 for(int c = 0; c < w.get(a)[b].length;c++){
@@ -51,6 +61,7 @@ public class GenerationManager{
                 }
             }
         }
+        System.out.println("Complete cross");
         return temp;
     }
 }

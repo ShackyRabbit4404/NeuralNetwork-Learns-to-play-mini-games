@@ -5,15 +5,19 @@ public class PongMain{
         frame.setVisible(true);
         frame.setBounds(100,100,600,600);
         Pong game = new Pong();
-        PongDisplay display = new PongDisplay(game);
+        GenerationManager Gen = new GenerationManager();
+        PongDisplay display = new PongDisplay(game,Gen);
         frame.add(display);
         display.draw();
-        GenerationManager Gen = new GenerationManager();
         Gen.createNewGeneration();
-        for(int a = 0; a < 5; a++){
+        int[] netStruct = {4,3,3};
+        NeuralNetwork best = Gen.Generation.get(0);
+        for(int a = 0; a < 20; a++){
+            int networkNum = 1;
             for(NeuralNetwork NN: Gen.Generation){
                 boolean contin = true;
                 game.reset();
+                game.setNetworkNumber(networkNum);
                 while(contin){
                     int highest = 0;
                     double[] choices = NN.forwardPropagate(game.getInputData());
@@ -40,9 +44,22 @@ public class PongMain{
                     }
                 }
                 NN.setFitness(game.getScore());
+                networkNum += 1;
             }
             Gen.sortGen();
+            if(Gen.Generation.get(0).getFitness() > best.getFitness()){
+                best = Gen.Generation.get(0);
+            }
             Gen.crossGeneration();
+        }
+        for(double[][] a: best.getWeights()){
+            for(double[] b: a){
+                for(double c: b){
+                    System.out.print(c + " ");
+                }
+                System.out.println("");
+            }
+            System.out.println("---------------");
         }
     }
 }
