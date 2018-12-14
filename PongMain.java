@@ -12,7 +12,7 @@ public class PongMain{
         Gen.createNewGeneration();
         int[] netStruct = {4,3,3};
         NeuralNetwork best = Gen.Generation.get(0);
-        for(int a = 0; a < 1000; a++){
+        for(int a = 0; a < 100; a++){
             int networkNum = 1;
             for(NeuralNetwork NN: Gen.Generation){
                 boolean contin = true;
@@ -35,7 +35,7 @@ public class PongMain{
                     if(!game.ballMove()){
                         contin = false;
                     }
-                    if(game.getScore() > 100000){
+                    if(game.getScore() > 20000){
                         break;
                     }
                     //display.draw();

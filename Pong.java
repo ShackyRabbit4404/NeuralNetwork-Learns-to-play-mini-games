@@ -51,7 +51,7 @@ public class Pong{
     public void playerMove(double direction){
         playerCords[0] += direction;
         if((direction > 0 && prevMove != 1)||(direction < 0 && prevMove != -1)){
-            score += 1;
+            score += 0.5;
         }
         if(direction > 0){
             prevMove = 1;
@@ -74,7 +74,7 @@ public class Pong{
         }
         if(ballCords[1] >= 480 && ballCords[0]-playerCords[0] <= 100 && ballCords[0]-playerCords[0] >= 0){
             ballDirection[1] = ballDirection[1]*-1;
-            score += 0.5;
+            score += 1;
         }
         else if(ballCords[1] <= 0){
             ballDirection[1] = ballDirection[1]* -1;
