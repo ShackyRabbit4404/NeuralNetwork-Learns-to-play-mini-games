@@ -75,10 +75,10 @@ public class Pong{
     public boolean ballMove(){
         ballCords[0] += 3*ballDirection[0];
         ballCords[1] += 3*ballDirection[1];
-        if(ballCords[0] <= 0 || ballCords[0] >= 500){
+        if(ballCords[0] <= 0 || ballCords[0] >= 495){
             ballDirection[0] = ballDirection[0]*-1;
         }
-        if(ballCords[1] >= 480 && ballCords[0]-playerCords[0] <= 100 && ballCords[0]-playerCords[0] >= 0){
+        if(ballCords[1] >= 475 && ballCords[0]-playerCords[0] <= 100 && ballCords[0]-playerCords[0] >= 0){
             ballDirection[1] = ballDirection[1]*-1;
             score += 1;
         }
