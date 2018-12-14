@@ -10,9 +10,9 @@ public class PongMain{
         frame.add(display);
         //display.draw();
         Gen.createNewGeneration();
-        int[] netStruct = {4,3,3};
+        int[] netStruct = {4,3,2};
         NeuralNetwork best = Gen.Generation.get(0);
-        for(int a = 0; a < 100; a++){
+        for(int a = 0; a < 1000; a++){
             int networkNum = 1;
             for(NeuralNetwork NN: Gen.Generation){
                 boolean contin = true;
@@ -29,19 +29,20 @@ public class PongMain{
                     if (highest == 0){
                         game.playerMove(-3);
                     }
-                    else if(highest == 2){
+                    else{
                         game.playerMove(3);
                     }
                     if(!game.ballMove()){
                         contin = false;
                     }
-                    if(game.getScore() > 20000 || game.getScore() < 0){
+                    if(game.getScore() > 50000 || game.getScore() < -1000){
                         break;
                     }
-                    //display.draw();
                     /*
+                    display.draw();
+                    
                     try{
-                        Thread.sleep(5);
+                        Thread.sleep(1);
                     }
                     catch(Exception e){
                         System.out.println(e);
@@ -74,6 +75,12 @@ public class PongMain{
         System.out.println("Score: "+best.getFitness());
         runBest(best);
     }
+    /*
+    public static void runSpecificNetwork(){
+        ArrayList<double[][]> w = new ArrayList<double>();
+        double[][] l1 = {};
+    }
+    */
     public static void runBest(NeuralNetwork b){
         JFrame frame = new JFrame();
         frame.setVisible(true);
@@ -87,6 +94,7 @@ public class PongMain{
         int[] netStruct = {4,3,3};
         NeuralNetwork best = Gen.Generation.get(0);
         boolean contin = true;
+        game.reset();
         while(contin){
             int highest = 0;
             double[] choices = b.forwardPropagate(game.getInputData());

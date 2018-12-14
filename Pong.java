@@ -32,7 +32,7 @@ public class Pong{
     public void reset(){
         ballDirection[0] = Math.random()+.25;
         ballDirection[1] = Math.random()+.25;
-        ballCords[0] = 10;
+        ballCords[0] = (Math.random()*480)+10;
         ballCords[1] = 10;
         playerCords[0] = 200;
         playerCords[1] = 480;
@@ -62,7 +62,7 @@ public class Pong{
         if(playerCords[0] < 0){
             playerCords[0] = 0;
             if(prevMove < 0){
-                score -= .25;
+                score -= .1;
             }
         }
         else if(playerCords[0] > 400){
