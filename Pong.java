@@ -61,9 +61,15 @@ public class Pong{
         }
         if(playerCords[0] < 0){
             playerCords[0] = 0;
+            if(prevMove < 0){
+                score -= .25;
+            }
         }
         else if(playerCords[0] > 400){
             playerCords[0] = 400;
+            if(prevMove > 0){
+                score -= .25;
+            }
         }
     }
     public boolean ballMove(){

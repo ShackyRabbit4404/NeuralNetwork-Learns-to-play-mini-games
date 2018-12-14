@@ -35,7 +35,7 @@ public class PongMain{
                     if(!game.ballMove()){
                         contin = false;
                     }
-                    if(game.getScore() > 20000){
+                    if(game.getScore() > 20000 || game.getScore() < 0){
                         break;
                     }
                     //display.draw();
