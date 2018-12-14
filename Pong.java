@@ -68,7 +68,7 @@ public class Pong{
         else if(playerCords[0] > 400){
             playerCords[0] = 400;
             if(prevMove > 0){
-                score -= .25;
+                score -= .1;
             }
         }
     }
@@ -80,7 +80,7 @@ public class Pong{
         }
         if(ballCords[1] >= 475 && ballCords[0]-playerCords[0] <= 100 && ballCords[0]-playerCords[0] >= 0){
             ballDirection[1] = ballDirection[1]*-1;
-            score += 1;
+            score += 2;
         }
         else if(ballCords[1] <= 0){
             ballDirection[1] = ballDirection[1]* -1;
