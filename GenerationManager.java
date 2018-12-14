@@ -3,24 +3,29 @@ public class GenerationManager{
     int genNum = 1;
     ArrayList<NeuralNetwork> Generation;
     //The structure of the network
-    int[] struct = {3,3,2};
+    int[] struct = {4,3,3};
     public GenerationManager(){
         Generation = new ArrayList<NeuralNetwork>();
     }
     public void createNewGeneration(){
-        
-        for(int i = 0; i < 50; i++){
+        for(int i = 0; i < 20; i++){
             Generation.add(new NeuralNetwork(struct));
         }
     }
     public void sortGen(){
         ArrayList<NeuralNetwork> newGen = new ArrayList<NeuralNetwork>();
         newGen.add(Generation.get(0));
-        for(int a = 1; a < Generation.size();a++){
-            for(int b = 0; b < newGen.size();b++){
-                if(Generation.get(a).getFitness() > newGen.get(b).getFitness()){
+        for(int a = 1; a < Generation.size(); a++){
+            boolean isLast = true;
+            for(int b = 0; b < newGen.size(); b++){
+                if(Generation.get(a).getFitness() > Generation.get(b).getFitness()){
                     newGen.add(b,Generation.get(a));
+                    isLast = false;
+                    break;
                 }
+            }
+            if(isLast){
+                newGen.add(Generation.get(a));
             }
         }
         Generation = newGen;
@@ -32,9 +37,10 @@ public class GenerationManager{
             newGen.add(new NeuralNetwork(struct));
         }
         for(int i = 0; i < Generation.size()-numNewNetworks; i++){
-           newGen.add(cross(Generation.get(i%10),Generation.get((int)(Math.random()*Generation.size())+1)));
+           newGen.add(cross(Generation.get(i%5),Generation.get((int)(Math.random()*Generation.size()))));
         }
         Generation = newGen;
+        genNum += 1;
     }
     public NeuralNetwork cross(NeuralNetwork x, NeuralNetwork y){
         NeuralNetwork temp = new NeuralNetwork(struct);
