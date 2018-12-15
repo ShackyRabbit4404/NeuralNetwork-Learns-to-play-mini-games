@@ -10,7 +10,7 @@ public class SnakeMain{
         int[] struct = {7,4,3};
         GenerationManager gen = new GenerationManager(struct);
         gen.createNewGeneration();
-        int numGens = 100;
+        int numGens = 10000;
         int genNum = 1;
         NeuralNetwork best = gen.Generation.get(0);
         for(int a = 0; a < numGens; a++){
@@ -20,9 +20,9 @@ public class SnakeMain{
                 game.setRandFoodLoc();
                 boolean contin = true;
                 int numMove = 0;
-                int prevScore = 0;
+                double prevScore = 0;
                 while(contin){
-                    if(numMove > 1000){
+                    if(numMove > 500){
                         break;
                     }
                     if(game.score > prevScore){
@@ -41,20 +41,22 @@ public class SnakeMain{
                         }
                     }
                     //System.out.println(largest);
-                    display.draw();
+                    //display.draw();
                     if(game.move(largest)){
                         contin = false;
                     }
+                    /*
                     try{
                         Thread.sleep(5);
                     }
                     catch(Exception e){
                         System.out.println(e);
                     }
+                    */
                     //System.out.println("("+game.foodX+","+game.foodY+")");
                     numMove++;
                 }
-                NN.setFitness(game.score);
+                NN.setFitness((int)(game.score+0.5));
             }
             gen.sortGen();
             System.out.println(gen.Generation.get(0).getFitness());

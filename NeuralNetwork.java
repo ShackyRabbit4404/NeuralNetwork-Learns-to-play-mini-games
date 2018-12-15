@@ -46,7 +46,7 @@ public class NeuralNetwork{
             System.out.println("");
         }
         */
-       return inputs.get(inputs.size()-1);
+        return inputs.get(inputs.size()-1);
     }
     public void setFitness(int f){
         fitness = f;

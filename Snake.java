@@ -9,7 +9,8 @@ public class Snake{
     int[] direction;
     int foodX;
     int foodY;
-    int score;
+    double score;
+    double distance = 600;
     public Snake(){
         tail = new ArrayList<Box>();
         tail.add(new Box(1,1));
@@ -78,6 +79,7 @@ public class Snake{
         direction = new int[4];
         direction[1] = 1;
         score = 0;
+        distance = 600;
     }
     public boolean move(int d){
         if(d == 0){
@@ -106,7 +108,11 @@ public class Snake{
         }
         tailX = tail.get(tail.size() - 1).getX();
         tailY = tail.get(tail.size() - 1).getY();
-        
+        //System.out.println(Math.sqrt(Math.abs(Math.pow((foodX-headX),2)+Math.pow((foodY-headY),2))));
+        if(Math.sqrt(Math.abs(Math.pow((foodX-headX),2)+Math.pow((foodY-headY),2))) < distance){
+            distance = Math.sqrt(Math.abs(Math.pow((foodX-headX),2)+Math.pow((foodY-headY),2)));
+            score += .1;
+        }
         return checkCollition();
     }
     public void checkFoodCollide(){
