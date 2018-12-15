@@ -6,7 +6,8 @@ public class PongMain{
         frame.setVisible(true);
         frame.setBounds(100,100,600,600);
         Pong game = new Pong();
-        GenerationManager Gen = new GenerationManager();
+        int[] struct = {4,3,2};
+        GenerationManager Gen = new GenerationManager(struct);
         PongDisplay display = new PongDisplay(game,Gen);
         frame.add(display);
         //display.draw();
@@ -76,11 +77,11 @@ public class PongMain{
         System.out.println("Score: "+best.getFitness());
         runBest(best);
     }
+    /*
     public static void runSpecificNetwork(){
         ArrayList<double[][]> w = new ArrayList<double[][]>();
         double[][] l1 = {};
         double[][] l2 = {};
-        int[] struct = {};
         w.add(l1);
         w.add(l2);
         NeuralNetwork best = new NeuralNetwork(struct);
@@ -88,7 +89,8 @@ public class PongMain{
         frame.setVisible(true);
         frame.setBounds(100,100,600,600);
         Pong game = new Pong();
-        GenerationManager Gen = new GenerationManager();
+        int[] struct = {4,3,2};
+        GenerationManager Gen = new GenerationManager(struct );
         PongDisplay display = new PongDisplay(game,Gen);
         frame.add(display);
         boolean contin = true;
@@ -124,12 +126,14 @@ public class PongMain{
          }
         
     }
+    */
     public static void runBest(NeuralNetwork b){
         JFrame frame = new JFrame();
         frame.setVisible(true);
         frame.setBounds(100,100,600,600);
         Pong game = new Pong();
-        GenerationManager Gen = new GenerationManager();
+        int[] struct = {4,3,2};
+        GenerationManager Gen = new GenerationManager(struct);
         PongDisplay display = new PongDisplay(game,Gen);
         frame.add(display);
         display.draw();

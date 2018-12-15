@@ -3,9 +3,10 @@ public class GenerationManager{
     int genNum = 1;
     ArrayList<NeuralNetwork> Generation;
     //The structure of the network
-    int[] struct = {4,3,3};
-    public GenerationManager(){
+    int[] struct;
+    public GenerationManager(int[] s){
         Generation = new ArrayList<NeuralNetwork>();
+        struct = s;
     }
     public void createNewGeneration(){
         for(int i = 0; i < 20; i++){
