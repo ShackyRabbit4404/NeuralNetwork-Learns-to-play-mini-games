@@ -6,20 +6,22 @@ public class FlappyBird{
     JFrame frame;
     FlappyBirdDisplay display;
     double velocity;
-    public void reset(boolean IV){
+    public FlappyBird(){
+        frame = new JFrame();
+        frame.setBounds(100,100,600,600);
+        frame.setVisible(true);
+        display = new FlappyBirdDisplay();
+        frame.add(display);
+    }
+    public void reset(){
         playerXY = new int[2];
         playerXY[0] = 100;
+        playerXY[1] = 250;
         score = 0;
         map = new int[3];
         velocity = 0;
         for(int i = 0; i < map.length;i++){
             map[i] = (int)(Math.random()*200+0.5);
-        }
-        if(IV){
-            frame = new JFrame();
-            frame.setBounds(100,100,600,600);
-            frame.setVisible(true);
-            display = new FlappyBirdDisplay();
         }
     }
     public double[] getInputData(){
@@ -30,23 +32,27 @@ public class FlappyBird{
         return ret;
     }
     public boolean checkCollition(){
+        if(playerXY[1] <= 0 || playerXY[1] >= 490){
+            return true;
+        }
         for(double e: map){
             if((playerXY[1] >= e+50 || playerXY[1] <= e-50) && playerXY[0] <= 20){
+                System.out.println("hit wall");
                 return true;
             }
         }
         return false;
     }
     public void simulate(NeuralNetwork NN,boolean isVisible){
-        reset(isVisible);
+        reset();
         boolean contin = true;
         while(contin){
             int choice = (int)((NN.forwardPropagate(getInputData()))[0]+0.5);
-            velocity --;
+            velocity ++;
             if(choice == 1){
-                velocity = 10;
+                velocity = -20;
             }
-            playerXY[0] ++;
+            playerXY[0] += 3;
             if(playerXY[0] == 200){
                 playerXY[0] = 0;
                 score ++;
@@ -61,7 +67,7 @@ public class FlappyBird{
             if(isVisible){
                 display.draw(map,playerXY);
                 try{
-                    Thread.sleep(250);
+                    Thread.sleep(30);
                 }
                 catch(Exception e){
                     System.out.println(e);

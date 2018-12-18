@@ -14,7 +14,7 @@ public class PongMain{
         Gen.createNewGeneration();
         int[] netStruct = {4,7,2};
         NeuralNetwork best = Gen.Generation.get(0);
-        for(int a = 0; a < 700; a++){
+        for(int a = 0; a < 1000; a++){
             int networkNum = 1;
             for(NeuralNetwork NN: Gen.Generation){
                 boolean contin = true;

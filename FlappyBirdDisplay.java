@@ -5,10 +5,13 @@ public class FlappyBirdDisplay extends JPanel{
     private int[] playerXY;
     public FlappyBirdDisplay(){
         super();
+        map = new int[3];
+        playerXY = new int[2];
     }
     public void draw(int[] m,int[] pxy){
         map = m;
         playerXY = pxy;
+        super.repaint();
     }
     public void paintComponent(Graphics g){
         super.paintComponent(g);
