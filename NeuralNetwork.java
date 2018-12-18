@@ -38,14 +38,6 @@ public class NeuralNetwork{
                 inputs.get(a+1)[b] = sigmoid(inputs.get(a+1)[b]);
             }
         }
-        /*
-        for(double[] a: inputs){
-            for(double b: a){
-                System.out.print(b+" ");
-            }
-            System.out.println("");
-        }
-        */
         return inputs.get(inputs.size()-1);
     }
     public void setFitness(int f){
