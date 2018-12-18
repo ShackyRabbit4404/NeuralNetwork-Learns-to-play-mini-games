@@ -5,9 +5,9 @@ public class FlappyBirdMain{
         gen.createNewGeneration();
         FlappyBird game = new FlappyBird();
         NeuralNetwork best = gen.Generation.get(0);
-        for(int a = 0; a < 1000;a++){
+        for(int a = 0; a < 10000;a++){
             for(int b = 0; b < gen.Generation.size();b++){
-                game.simulate(gen.Generation.get(b),true);
+                game.simulate(gen.Generation.get(b),false);
             }
             gen.sortGen();
             if(gen.Generation.get(0).getFitness() > best.getFitness()){
@@ -16,5 +16,6 @@ public class FlappyBirdMain{
             System.out.println("Fitness: "+best.getFitness());
             gen.crossGeneration();
         }
+        game.simulate(best,true);
     }
 }

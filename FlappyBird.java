@@ -14,15 +14,15 @@ public class FlappyBird{
         frame.add(display);
     }
     public void reset(){
-        playerXY = new int[2];
-        playerXY[0] = 100;
-        playerXY[1] = 250;
         score = 0;
         map = new int[3];
         velocity = 0;
         for(int i = 0; i < map.length;i++){
-            map[i] = (int)(Math.random()*200+0.5);
+            map[i] = (int)(Math.random()*200+0.5)+150;
         }
+        playerXY = new int[2];
+        playerXY[0] = 100;
+        playerXY[1] = map[0];
     }
     public double[] getInputData(){
         double ret[] = new double[3];
@@ -36,8 +36,8 @@ public class FlappyBird{
             return true;
         }
         for(double e: map){
-            if((playerXY[1] >= e+50 || playerXY[1] <= e-50) && playerXY[0] <= 20){
-                System.out.println("hit wall");
+            if((playerXY[1] >= e+50 || playerXY[1] <= e-50) && (playerXY[0] <= 20 || playerXY[0] >= 190)){
+                System.out.println("Hit wall");
                 return true;
             }
         }
@@ -52,7 +52,7 @@ public class FlappyBird{
             if(choice == 1){
                 velocity = -20;
             }
-            playerXY[0] += 3;
+            playerXY[0] += 5;
             if(playerXY[0] == 200){
                 playerXY[0] = 0;
                 score ++;
