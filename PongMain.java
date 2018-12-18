@@ -6,13 +6,13 @@ public class PongMain{
         frame.setVisible(true);
         frame.setBounds(100,100,600,600);
         Pong game = new Pong();
-        int[] struct = {4,3,2};
+        int[] struct = {4,10,2};
         GenerationManager Gen = new GenerationManager(struct);
         PongDisplay display = new PongDisplay(game,Gen);
         frame.add(display);
         //display.draw();
         Gen.createNewGeneration();
-        int[] netStruct = {4,3,2};
+        int[] netStruct = {4,7,2};
         NeuralNetwork best = Gen.Generation.get(0);
         for(int a = 0; a < 2000; a++){
             int networkNum = 1;
@@ -132,7 +132,7 @@ public class PongMain{
         frame.setVisible(true);
         frame.setBounds(100,100,600,600);
         Pong game = new Pong();
-        int[] struct = {4,3,2};
+        int[] struct = {4,10,2};
         GenerationManager Gen = new GenerationManager(struct);
         PongDisplay display = new PongDisplay(game,Gen);
         frame.add(display);
@@ -153,7 +153,7 @@ public class PongMain{
             if (highest == 0){
                 game.playerMove(-3);
             }   
-            else if(highest == 2){
+            else{
                 game.playerMove(3);
             }
             if(!game.ballMove()){

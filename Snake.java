@@ -82,22 +82,32 @@ public class Snake{
         distance = 600;
     }
     public boolean move(int d){
+        
+        System.out.println("");
         if(d == 0){
             turnLeft();
         }
         else if(d == 2){
             turnRight();
         }
+        for(int i: direction){
+            System.out.print(i+" ");
+        }
+        System.out.println("");
         if(direction[0] == 1){
+            System.out.println("nort");
             headY -= 10;
         }
         else if(direction[1] == 1){
+            System.out.println("east");
             headX += 10;
         }
         else if(direction[2] == 1){
+            System.out.println("south");
             headY += 10;
         }
         else{
+            System.out.println("west");
             headX -= 10;
         }
         tail.get(0).setLocation(headX,headY);
@@ -113,7 +123,7 @@ public class Snake{
             distance = Math.sqrt(Math.abs(Math.pow((foodX-headX),2)+Math.pow((foodY-headY),2)));
             score += .1;
         }
-        return checkCollition();
+        return false;
     }
     public void checkFoodCollide(){
         if(headX == foodX && headY == foodY){
@@ -152,26 +162,26 @@ public class Snake{
     public void turnRight(){
         for(int i = 0; i < direction.length; i++){
             if(direction[i] == 1){
-                int temp = i;
+                int temp = i+1;
                 direction[i] = 0;
-                temp += 1;
-                if(temp >= direction.length){
+                if(temp == 4){
                     temp = 0;
                 }
                 direction[temp] = 1;
+                break;
             }
         }
     }
     public void turnLeft(){
         for(int i = 0; i < direction.length; i++){
             if(direction[i] == 1){
-                int temp = i;
+                int temp = i-1;
                 direction[i] = 0;
-                temp -= 1;
-                if(temp <= 0){
-                    temp = direction.length-1;
+                if(temp == -1){
+                    temp = 3;
                 }
                 direction[temp] = 1;
+                break;
             }
         }
     }

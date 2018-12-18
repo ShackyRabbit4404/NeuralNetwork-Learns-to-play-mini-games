@@ -10,9 +10,30 @@ public class SnakeMain{
         int[] struct = {7,4,3};
         GenerationManager gen = new GenerationManager(struct);
         gen.createNewGeneration();
-        int numGens = 10000;
+        int numGens = 10;
         int genNum = 1;
         NeuralNetwork best = gen.Generation.get(0);
+        game.reset();
+        /*
+        for(int i = 0; i < 10;i++){
+            game.move(2);
+            display.draw();
+            try{
+                Thread.sleep(1000);
+            }
+            catch(Exception e){
+                System.out.println(e);
+            }
+            game.move(1);
+            display.draw();
+            try{
+                Thread.sleep(1000);
+            }
+            catch(Exception e){
+                System.out.println(e);
+            }
+        }
+        */
         for(int a = 0; a < numGens; a++){
             display.setGenNum(genNum);
             for(NeuralNetwork NN: gen.Generation){
@@ -41,18 +62,16 @@ public class SnakeMain{
                         }
                     }
                     //System.out.println(largest);
-                    //display.draw();
+                    display.draw();
                     if(game.move(largest)){
                         contin = false;
                     }
-                    /*
                     try{
-                        Thread.sleep(5);
+                        Thread.sleep(200);
                     }
                     catch(Exception e){
                         System.out.println(e);
                     }
-                    */
                     //System.out.println("("+game.foodX+","+game.foodY+")");
                     numMove++;
                 }
