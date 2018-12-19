@@ -9,7 +9,7 @@ public class GenerationManager{
         struct = s;
     }
     public void createNewGeneration(){
-        for(int i = 0; i < 50; i++){
+        for(int i = 0; i < 20; i++){
             Generation.add(new NeuralNetwork(struct));
         }
     }
