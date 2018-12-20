@@ -3,7 +3,7 @@ public class PongMain{
     public static void main(String[] args){
         int[] struct = {3,5,1};
         GenerationManager gen = new  GenerationManager(struct);
-        int numGen = 3000;
+        int numGen = 5000;
         Pong game = new Pong();
         gen.createNewGeneration();
         NeuralNetwork best = gen.Generation.get(0);
