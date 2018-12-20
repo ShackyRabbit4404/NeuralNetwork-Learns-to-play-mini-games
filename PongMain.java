@@ -1,171 +1,40 @@
 import javax.swing.*;
-import java.util.*;
 public class PongMain{
-    public static void main(String args[]){
-        JFrame frame = new JFrame();
-        frame.setVisible(true);
-        frame.setBounds(100,100,600,600);
+    public static void main(String[] args){
+        int[] struct = {3,5,1};
+        GenerationManager gen = new  GenerationManager(struct);
+        int numGen = 3000;
         Pong game = new Pong();
-        int[] struct = {4,10,2};
-        GenerationManager Gen = new GenerationManager(struct);
-        PongDisplay display = new PongDisplay(game,Gen);
-        frame.add(display);
-        //display.draw();
-        Gen.createNewGeneration();
-        int[] netStruct = {4,7,2};
-        NeuralNetwork best = Gen.Generation.get(0);
-        for(int a = 0; a < 1000; a++){
-            int networkNum = 1;
-            for(NeuralNetwork NN: Gen.Generation){
-                boolean contin = true;
-                game.reset();
-                game.setNetworkNumber(networkNum);
-                while(contin){
-                    int highest = 0;
-                    double[] choices = NN.forwardPropagate(game.getInputData());
-                    for(int  i= 0; i < choices.length; i++){
-                        if(choices[i] > choices[highest]){
-                            highest = i;
-                        }
-                    }
-                    if (highest == 0){
-                        game.playerMove(-3);
-                    }
-                    else{
-                        game.playerMove(3);
-                    }
-                    if(!game.ballMove()){
-                        contin = false;
-                    }
-                    if(game.getScore() > 100000 || game.getScore() < -1000){
-                        break;
-                    }
-                    /*
-                    display.draw();
-                    
-                    try{
-                        Thread.sleep(1);
-                    }
-                    catch(Exception e){
-                        System.out.println(e);
-                    }
-                    */
-                }
-                NN.setFitness(game.getScore());
-                networkNum += 1;
+        gen.createNewGeneration();
+        NeuralNetwork best = gen.Generation.get(0);
+        
+        JFrame bestrgraph = new JFrame("Best raw score over generations");
+        bestrgraph.setSize(500,500);
+        bestrgraph.setResizable(false);
+        bestrgraph.setVisible(true);
+        bestrgraph.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        StatisticsGraph brg = new StatisticsGraph(bestrgraph,500,500);
+        bestrgraph.add(brg);
+        brg.setVisible(true);
+        brg.addPoint(0,0);
+        
+        for(int i = 0; i < numGen; i++){
+            for(NeuralNetwork NN: gen.Generation){
+                game.simulate(NN,false);
             }
-            System.out.println("Generation Number: "+ Gen.genNum);
-            Gen.sortGen();
-            if(Gen.Generation.get(0).getFitness() > best.getFitness() && Gen.Generation.get(0).getFitness() != 100001){
-                best = Gen.Generation.get(0);
+            gen.sortGen();
+            if(gen.Generation.get(0).getFitness() > best.getFitness()){
+                best = gen.Generation.get(0);
             }
-            System.out.println("Best: "+ best.getFitness());
-            Gen.crossGeneration();
-        }
-        System.out.print("[");
-        for(double[][] a: best.getWeights()){
-            System.out.print("[");
-            for(double[] b: a){
-                for(double c: b){
-                    System.out.print(c + ", ");
-                }
-                System.out.println("],");
-            }
-            System.out.print("]");
-            System.out.println("---------------");
-        }
-        System.out.println("Score: "+best.getFitness());
-        runBest(best);
-    }
-    /*
-    public static void runSpecificNetwork(){
-        ArrayList<double[][]> w = new ArrayList<double[][]>();
-        double[][] l1 = {};
-        double[][] l2 = {};
-        w.add(l1);
-        w.add(l2);
-        NeuralNetwork best = new NeuralNetwork(struct);
-        JFrame frame = new JFrame();
-        frame.setVisible(true);
-        frame.setBounds(100,100,600,600);
-        Pong game = new Pong();
-        int[] struct = {4,3,2};
-        GenerationManager Gen = new GenerationManager(struct );
-        PongDisplay display = new PongDisplay(game,Gen);
-        frame.add(display);
-        boolean contin = true;
-        while(contin){
-            int highest = 0;
-            double[] choices = best.forwardPropagate(game.getInputData());
-            for(int  i= 0; i < choices.length; i++){
-                if(choices[i] > choices[highest]){
-                    highest = i;
-                }
-            }
-            if (highest == 0){
-                game.playerMove(-3);
-            }
-            else{
-                game.playerMove(3);
-            }
-            if(!game.ballMove()){
-                contin = false;
-            }
-            if(game.getScore() > 50000 || game.getScore() < -1000){
+            if(best.getFitness() >= 10000){
+                System.out.println("Mastered");
                 break;
             }
-            display.draw();
-            
-            try{
-                Thread.sleep(1);
-            }
-            catch(Exception e){
-                System.out.println(e);
-            }
-                    
-         }
-        
-    }
-    */
-    public static void runBest(NeuralNetwork b){
-        JFrame frame = new JFrame();
-        frame.setVisible(true);
-        frame.setBounds(100,100,600,600);
-        Pong game = new Pong();
-        int[] struct = {4,10,2};
-        GenerationManager Gen = new GenerationManager(struct);
-        PongDisplay display = new PongDisplay(game,Gen);
-        frame.add(display);
-        display.draw();
-        Gen.createNewGeneration();
-        int[] netStruct = {4,3,3};
-        NeuralNetwork best = Gen.Generation.get(0);
-        boolean contin = true;
-        game.reset();
-        while(contin){
-            int highest = 0;
-            double[] choices = b.forwardPropagate(game.getInputData());
-            for(int  i= 0; i < choices.length; i++){
-                if(choices[i] > choices[highest]){
-                    highest = i;
-                }
-            }
-            if (highest == 0){
-                game.playerMove(-3);
-            }   
-            else{
-                game.playerMove(3);
-            }
-            if(!game.ballMove()){
-                contin = false;
-            }
-            display.draw();
-            try{
-                Thread.sleep(10);
-            }
-            catch(Exception e){
-                System.out.println(e);
+            gen.crossGeneration();
+            if(i%200 == 0){
+                brg.addPoint(i,best.getFitness());
             }
         }
+        game.simulate(best,true);
     }
 }

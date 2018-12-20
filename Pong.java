@@ -1,105 +1,93 @@
+import javax.swing.*;
 public class Pong{
-    double[] ballCords;
-    double[] ballDirection;
-    double[] playerCords;
-    private double score;
-    private int networkNumber;
-    private int prevMove = 0;
+    double[] cords;
+    //[0] ballX, [1] ballY, [2] playerX
+    double[] direction;
+    //[0] xDirection, [1] yDirection
+    JFrame frame;
+    PongDisplay display;
+    int movementSpeed;
     public Pong(){
-        ballCords = new double[2];
-        playerCords = new double[2];
-        playerCords[1] = 480;
-        ballDirection = new double[2];
-        //slope of the ball
-        ballDirection[0] = 1;
-        //right == 1, left == -1
-        ballDirection[1] = 1;
-        score = 0;
-    }
-    public void setNetworkNumber(int i){
-        networkNumber = i;
-    }
-    public int getNetworkNumber(){
-        return networkNumber;
-    }
-    public int getScore(){
-        return (int)(score+0.5);
-    }
-    public double[] getInputData(){
-        double[] ret = {((double)ballCords[0])/500,((double)ballCords[1])/500,((double)playerCords[0])/500,(double)480/500};
-        return ret;
+        frame = new JFrame();
+        frame.setBounds(500,100,600,600);
+        frame.setVisible(true);
+        display = new PongDisplay();
+        frame.add(display);
+        movementSpeed = 3;
     }
     public void reset(){
-        ballDirection[0] = Math.random()+.25;
-        ballDirection[1] = Math.random()+.25;
-        ballCords[0] = (Math.random()*480)+10;
-        ballCords[1] = 10;
-        playerCords[0] = 200;
-        playerCords[1] = 480;
-        score = 0;
-        prevMove = 0;
-    }
-    public int getBallX(){
-        return (int)(ballCords[0]+0.5);
-    }
-    public int getBallY(){
-        return (int)(ballCords[1]+0.5);
-    }
-    public int getPlayerX(){
-        return (int)(playerCords[0]+0.5);
-    }
-    public void playerMove(double direction){
-        playerCords[0] += direction;
-        if((direction > 0 && prevMove != 1)||(direction < 0 && prevMove != -1)){
-            score += 0.5;
-        }
-        if(direction > 0){
-            prevMove = 1;
+        cords = new double[3];
+        cords[0] = (int)(Math.random()*300+100.5);
+        cords[1] = 20;
+        cords[2] = 250;
+        direction = new double[2];
+        if(Math.random() < 0.5){
+            direction[0] = 0.5;
         }
         else{
-            prevMove = -1;
+            direction[0] = -0.5;
         }
-        if(playerCords[0] < 0){
-            playerCords[0] = 0;
-            if(prevMove < 0){
-                score -= .1;
-            }
+        if(Math.random() < 0.5){
+            direction[1] = 0.5;
         }
-        else if(playerCords[0] > 400){
-            playerCords[0] = 400;
-            if(prevMove > 0){
-                score -= .1;
-            }
+        else{
+            direction[1] = -0.5;
         }
     }
-    public boolean ballMove(){
-        ballCords[0] += 3*ballDirection[0];
-        ballCords[1] += 3*ballDirection[1];
-        /*
-        if(ballCords[1] <= 0){
-            ballDirection[0] *= -1;
-        }
-        else if(ballCords[1] >= 475){
-            if(){
-                
+    public void simulate(NeuralNetwork NN,boolean isVisible){
+        boolean contin = true;
+        double score = 0;
+        reset();
+        while(contin){
+            cords[0] += movementSpeed*direction[0];
+            cords[1] += movementSpeed*direction[1];
+            int choice = (int)(NN.forwardPropagate(cords)[0]+0.5);
+            if(choice == 1){
+                cords[2] += movementSpeed;
+                if(cords[2] >= 400){
+                    score -= 0.1;
+                    cords[2] = 399;
+                }
+            }
+            else{
+                cords[2] -= movementSpeed;
+                if(cords[2] <= 0){
+                    score -= 0.1;
+                    cords[2] = 1;
+                }
+            }
+            if(cords[0] <= 0 || cords[0] >= 490){
+                direction[0] *= -1;
+            }
+            if(cords[1] <= 0){
+                direction[1] *= -1;
+            }
+            else if(cords[0]-cords[2] <= 100 && cords[0]-cords[2] >= -9 && cords[1] >= 469){
+                direction[1] *= -1;
+                score += 5;
+                cords[1] = 468;
+            }
+            else if(cords[1] >= 469){
+                contin = false;
+            }
+            if(isVisible){
+                int[] temp = {(int)cords[0],(int)cords[1],(int)cords[2]};
+                display.draw(temp,(int)(score+0.5));
+                try{
+                    Thread.sleep(1);
+                }
+                catch(Exception e){
+                    System.out.println(e);
+                }
+            }
+            if(score <= -500){
+                break;
+            }
+            if(score >= 10000){
+                System.out.println("god or glitch");
+                break;
             }
         }
-        */
-        if(ballCords[1] >= 475 && ballCords[0]-playerCords[0] <= 100 && ballCords[0]-playerCords[0] >= 0){
-            ballDirection[1] = ballDirection[1]*-1;
-            score += 2;
-            ballCords[1] = 474;
-        }
-        else if(ballCords[1] <= 0){
-            ballDirection[1] = ballDirection[1]* -1;
-        }
-        else if(ballCords[1] >= 480){
-            return false;
-        } 
-        if(ballCords[0] <= 0 || ballCords[0] >= 495){
-            ballDirection[0] = ballDirection[0]*-1;
-        }
-          
-        return true;
+        NN.setFitness((int)(score+0.5));
     }
 }
