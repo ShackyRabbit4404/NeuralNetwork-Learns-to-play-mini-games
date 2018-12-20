@@ -3,7 +3,7 @@ public class Snake{
     //20 by 20 board
     ArrayList<int[]> s;
     int[] foodCords;
-    int direction;
+    double score;
     public Snake(){
         reset();
     }
@@ -11,10 +11,11 @@ public class Snake{
         s = new ArrayList<int[]>();
         int[] start = {10,10};
         s.add(start);
+        int[] end = {9,10};
+        s.add(end);
         foodCords = new int[2];
         randFoodCord();
-        //0 == up, 1 == right, 2 == down, 3 = left
-        direction = (int)(Math.random()*4);
+        score = 0;
     }
     public void randFoodCord(){
         foodCords[0] = (int)(Math.random()*20+1);
@@ -27,6 +28,12 @@ public class Snake{
             }
         }
         return false;
+    }
+    public void checkEatenFood(){
+        if(s.get(0)[0] == foodCords[0] && s.get(0)[1] == foodCords[1]){
+            score += 2;
+            randFoodCord();
+        }
     }
     public double[] getInputs(){
         double[] ins = new double[8];
@@ -76,21 +83,64 @@ public class Snake{
         s.get(0)[0] = x;
         s.get(0)[1] = y;
     }
-    public void simulate(NeuralNetwork NN){
+    public boolean checkCollition(){
+        if(tailContains(s.get(0)[0],s.get(0)[1])){
+            return true;
+        }
+        if(s.get(0)[0] <= 0 || s.get(0)[0] >= 20 || s.get(0)[1] <= 0 || s.get(0)[1] >= 20){
+            return true;
+        }
+        return false;
+    }
+    public void simulate(NeuralNetwork NN, boolean isVisible){
         boolean contin = true;
         while(contin){
             int choice = getChoice(NN.forwardPropagate(getInputs()));
             if(choice == 0){
-                move(s.get(0)[0],s.get(0)[1]-1);
+                if(s.get(1)[1] != s.get(0)[1]-1){
+                    move(s.get(0)[0],s.get(0)[1]-1);
+                }
+                else{
+                    move(s.get(0)[0],s.get(0)[1]+1);
+                }
             }
             else if(choice == 1){
-                move(s.get(0)[0]+1,s.get(0)[1]);
+                if(s.get(1)[0] != s.get(0)[0]+1){
+                    move(s.get(0)[0]+1,s.get(0)[1]);
+                }
+                else{
+                    move(s.get(0)[0]-1,s.get(0)[1]);
+                }
             }
             else if(choice == 2){
-                move(s.get(0)[0],s.get(0)[1]+1);
+                if(s.get(1)[1] != s.get(0)[1]+1){
+                    move(s.get(0)[0],s.get(0)[1]+1);
+                }
+                else{
+                    move(s.get(0)[0],s.get(0)[1]-1);
+                }
             }
             else{
-                move(s.get(0)[0]-1,s.get(0)[1]);
+                if(s.get(1)[0] != s.get(0)[0]-1){
+                    move(s.get(0)[0]-1,s.get(0)[1]);
+                }
+                else{
+                    move(s.get(0)[0]+1,s.get(0)[1]);
+                }   
+            }
+            if(checkCollition()){
+                break;
+            }
+            checkEatenFood();
+            if(isVisible){
+                try{
+                        Thread.sleep(25);
+                }
+                catch(Exception e){
+                    System.out.println(e);
+                }
             }
         }
+        NN.setFitness((int)(score+0.5));
     }
+}
