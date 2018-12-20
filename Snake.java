@@ -13,7 +13,7 @@ public class Snake{
         s.add(start);
         foodCords = new int[2];
         randFoodCord();
-        direction = Math.random()
+        direction = Math.random();
     }
     public void randFoodCord(){
         foodCords[0] = (int)(Math.random()*20+1);
