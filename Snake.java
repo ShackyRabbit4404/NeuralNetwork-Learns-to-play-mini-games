@@ -1,11 +1,17 @@
 import java.util.*;
+import java.swing.*;
 public class Snake{
     //20 by 20 board
     ArrayList<int[]> s;
     int[] foodCords;
     double score;
+    SnakeDisplay display;
+    JFrame frame;
     public Snake(){
         reset();
+        frame = new JFrame();
+        frame.setBounds(500,500,600,600);
+        frame.setVisible(true);
     }
     public void reset(){
         s = new ArrayList<int[]>();
