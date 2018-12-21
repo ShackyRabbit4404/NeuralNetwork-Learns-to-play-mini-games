@@ -1,5 +1,5 @@
 import java.util.*;
-import java.swing.*;
+import javax.swing.*;
 public class Snake{
     //20 by 20 board
     ArrayList<int[]> s;
