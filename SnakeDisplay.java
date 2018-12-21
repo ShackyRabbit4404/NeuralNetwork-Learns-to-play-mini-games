@@ -25,5 +25,9 @@ public class SnakeDisplay extends JPanel{
         g.fillRect(blw/20,blw/20,blw-(blw/20*2),blw-(blw/20*2));
         g.setColor(Color.RED);
         g.fillRect(foodXY[0],foodXY[1],blw/20,blw/20);
+        g.setColor(Color.WHITE);
+        for(int[] i: snake){
+            g.fillRect(i[0]*(blw/20),i[1]*(blw/20),blw/20,blw/20);
+        }
     }
 }
