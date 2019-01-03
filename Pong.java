@@ -84,7 +84,6 @@ public class Pong{
                 break;
             }
             if(score >= 10000){
-                System.out.println("god or glitch");
                 break;
             }
         }

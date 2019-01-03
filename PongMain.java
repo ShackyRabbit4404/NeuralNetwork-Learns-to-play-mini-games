@@ -35,6 +35,7 @@ public class PongMain{
                 brg.addPoint(i,best.getFitness());
             }
         }
+        brg.addPoint(numGen,best.getFitness());
         game.simulate(best,true);
     }
 }
