@@ -28,8 +28,8 @@ public class Snake{
         prevEnd = new int[2];
     }
     public void randFoodCord(){
-        foodCords[0] = (int)(Math.random()*20+1);
-        foodCords[1] = (int)(Math.random()*20+1);
+        foodCords[0] = (int)(Math.random()*18+1);
+        foodCords[1] = (int)(Math.random()*18+1);
     }
     public boolean tailContains(int x,int y){
         for(int i = 1; i < s.size(); i++){
@@ -92,23 +92,27 @@ public class Snake{
         for(int i = 1;i < s.size();i++){
             s.set(i,s.get(i-1));
         }
-        s.get(0)[0] = x;
-        s.get(0)[1] = y;
+        int[] head = {x,y};
+        s.set(0,head);
     }
     public boolean checkCollition(){
+        /*
         if(tailContains(s.get(0)[0],s.get(0)[1])){
-            System.out.println("test");
+            System.out.println("test1");
             return true;
         }
-        if(s.get(0)[0] <= 0 || s.get(0)[0] >= 20 || s.get(0)[1] <= 0 || s.get(0)[1] >= 20){
+        */
+        if(s.get(0)[0] <= 0 || s.get(0)[0] >= 19 || s.get(0)[1] <= 0 || s.get(0)[1] >= 19){
+            //System.out.println("test2");
             return true;
         }
         return false;
     }
     public void simulate(NeuralNetwork NN, boolean isVisible){
+        reset();
         boolean contin = true;
         while(contin){
-            
+            //System.out.println(s.size());
             int choice = getChoice(NN.forwardPropagate(getInputs()));
             prevEnd = s.get(s.size()-1);
             if(choice == 0){
@@ -150,10 +154,9 @@ public class Snake{
                 s.add(prevEnd);
             }
             if(isVisible){
-                
                 try{
                     display.draw(s,foodCords);
-                    Thread.sleep(25);
+                    Thread.sleep(250);
                 }
                 catch(Exception e){
                     System.out.println(e);

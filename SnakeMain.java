@@ -2,7 +2,7 @@ import javax.swing.*;
 public class SnakeMain{
     public static void main(String[] args){
         Snake game = new Snake();
-        int[] struct = {8,10,4};
+        int[] struct = {8,7,5,4};
         GenerationManager gen = new GenerationManager(struct);
         gen.createNewGeneration();
         NeuralNetwork best = gen.Generation.get(0);
@@ -17,16 +17,19 @@ public class SnakeMain{
         brg.setVisible(true);
         brg.addPoint(0,0);
         */
-        int numGens = 10;
+        int numGens = 100;
         for(int i = 0; i < numGens; i++){
             for(NeuralNetwork NN: gen.Generation){
-                game.simulate(NN,true);
+                game.simulate(NN,false);
             }
             gen.sortGen();
             if(gen.Generation.get(0).getFitness() > best.getFitness()){
                 best = gen.Generation.get(0);
             }
+            System.out.println("Fitness: "+ best.getFitness());
+            gen.crossGeneration();
             //brg.addPoint(i+1,best.getFitness());
         }
+        game.simulate(best,true);
     }
 }
