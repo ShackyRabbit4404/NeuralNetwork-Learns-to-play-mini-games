@@ -60,7 +60,7 @@ public class FlappyBird{
         velocity += 10;
     }
     public boolean checkCollision(){
-        if(walls[0][1] <= playerSize() && (Math.abs(playerY-walls[0][0]) > wallsOpeningSize/2 || playerY < 0 || playerY > 500)){
+        if(walls[0][1] <= playerSize && (Math.abs(playerY-walls[0][0]) > wallOpeningSize/2 || playerY < 0 || playerY > 500)){
             return true;
         }
         return false;
@@ -75,12 +75,12 @@ public class FlappyBird{
             }
             velocity += gravity;
             updateWalls();
-            playerY += velocity();
+            playerY += velocity;
             if(checkCollision()){
                 contin = false;
             }
             if(isVisible){
-                display.draw();
+                display.draw(walls,playerY);
                 try{
                     Thread.sleep(17);
                 }

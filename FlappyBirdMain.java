@@ -6,8 +6,8 @@ public class FlappyBirdMain{
         int numGens = 100;
         gen.createNewGeneration();
         NeuralNetwork best = gen.Generation.get(0);
-        for(int i = 0; i < numGen; i++){
-            for(NeuralNetwork NN: gen.Generation()){
+        for(int i = 0; i < numGens; i++){
+            for(NeuralNetwork NN: gen.Generation){
                 game.simulate(NN,false);
             }
             gen.sortGen();
