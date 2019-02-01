@@ -1,20 +1,25 @@
 public class FlappyBirdMain{
-    public static void main(String[] args){
-        int[] struct = {3,5,1};
+    public static void main(String args[]){
+        int[] struct = {4,3,1};
         GenerationManager gen = new GenerationManager(struct);
-        gen.createNewGeneration();
         FlappyBird game = new FlappyBird();
+        int numGens = 100;
+        gen.createNewGeneration();
         NeuralNetwork best = gen.Generation.get(0);
-        for(int a = 0; a < 10000;a++){
-            for(int b = 0; b < gen.Generation.size();b++){
-                game.simulate(gen.Generation.get(b),false);
+        for(int i = 0; i < numGen; i++){
+            for(NeuralNetwork NN: gen.Generation()){
+                game.simulate(NN,false);
             }
             gen.sortGen();
             if(gen.Generation.get(0).getFitness() > best.getFitness()){
                 best = gen.Generation.get(0);
             }
-            System.out.println("Fitness: "+best.getFitness());
+            if(best.getFitness() > 1000){
+                System.out.println("Mastered");
+                break;
+            }
             gen.crossGeneration();
+            System.out.println((i+1)+". Best: "+best.getFitness());
         }
         game.simulate(best,true);
     }

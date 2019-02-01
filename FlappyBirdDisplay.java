@@ -1,28 +1,30 @@
-import javax.swing.*;
 import java.awt.*;
+import javax.swing.*;
 public class FlappyBirdDisplay extends JPanel{
-    private int[] map;
-    private int[] playerXY;
-    public FlappyBirdDisplay(){
+    int[][] walls;
+    double y;
+    int playerSize;
+    int openingSize;
+    public FlappyBirdDisplay(int p,int o){
         super();
-        map = new int[3];
-        playerXY = new int[2];
+        playerSize = p;
+        openingSize = o;
     }
-    public void draw(int[] m,int[] pxy){
-        map = m;
-        playerXY = pxy;
+    public void draw(int[][] w, double Y){
+        walls = w;
+        y = Y;
         super.repaint();
     }
     public void paintComponent(Graphics g){
         super.paintComponent(g);
         g.setColor(Color.BLUE);
         g.fillRect(0,0,500,500);
-        g.setColor(Color.GRAY);
-        for(int i = 0; i<map.length;i++){
-            g.fillRect(200*i+(200-playerXY[0]),0,20,map[i]-50);
-            g.fillRect(200*i+(200-playerXY[0]),map[i]+50,20,500-(map[i]+50));
-        }
         g.setColor(Color.RED);
-        g.fillRect(100,playerXY[1],10,10);
+        g.fillRect(100-playerSize,(int)(500-y-playerSize),playerSize*2,playerSize*2);
+        g.setColor(Color.BLACK);
+        for(int[] e: walls){
+            g.fillRect(e[1]+100,0,1,e[0] - (openingSize/2-1));
+            g.fillRect(e[1]+100,e[0] + (openingSize/2+1),1,500);
+        }
     }
 }
